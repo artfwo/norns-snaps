@@ -1,0 +1,11 @@
+{
+  "type": "model",
+  "authority-id": "mEeF2mJjRnDP12w1CbYx619YHqHDYKdt",
+  "brand-id": "mEeF2mJjRnDP12w1CbYx619YHqHDYKdt",
+  "series": "16",
+  "model": "norns-artfwo",
+  "architecture": "armhf",
+  "gadget": "cm3-norns-artfwo",
+  "kernel": "norns-kernel-artfwo",
+  "timestamp": "2018-05-12T03:50:35+00:00"
+}

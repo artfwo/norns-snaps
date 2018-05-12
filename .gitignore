@@ -1,7 +1,7 @@
 gadget/parts/
 gadget/prime/
 gadget/stage/
-gadget/cm3_*.snap
+gadget/*.snap
 
 kernel/parts/
 kernel/prime/
@@ -12,3 +12,5 @@ norns/parts/
 norns/prime/
 norns/stage/
 norns/*.snap
+
+*.model
