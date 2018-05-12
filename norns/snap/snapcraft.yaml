@@ -23,18 +23,20 @@ parts:
     source: https://github.com/monome/libmonome.git
     source-depth: 1
     plugin: waf
+    configflags:
+      - --prefix=/usr
     build-packages:
       - libudev-dev
       - liblo-dev
     stage-packages:
       - liblo7
-    configflags:
-      - --prefix=/usr
 
   jack2:
     source: https://github.com/jackaudio/jack2.git
     source-depth: 1
     plugin: waf
+    configflags:
+      - --prefix=/usr
     build-packages:
       - libasound2-dev
       - libsamplerate0-dev
@@ -42,16 +44,16 @@ parts:
       - libasound2
       - libsamplerate0
       - libsndfile1
-    configflags:
-      - --prefix=/usr
 
   supercollider:
     after: [jack2]
     source: https://github.com/supercollider/supercollider.git
     source-depth: 1
     disable-parallel: true
-    prepare: |
-      git apply ../../../patches/pinned_cpu_sclang_terminal.diff
+    override-build: |
+      echo "applying pinned_cpu_sclang_terminal.diff..."
+      git apply --verbose ../../../patches/pinned_cpu_sclang_terminal.diff
+      snapcraftctl build
     plugin: cmake
     configflags:
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -85,3 +87,69 @@ parts:
       - libavahi-client3
       - libfftw3-single3
       - libxcb1
+
+  sc3-plugins:
+    after: [supercollider]
+    source: https://github.com/supercollider/sc3-plugins.git
+    source-depth: 1
+    plugin: cmake
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DNATIVE=1
+      - -DSUPERNOVA=0
+      - -DNOVA_SIMD=0
+      - -DSC_PATH=$SNAPCRAFT_STAGE/usr/include/SuperCollider
+
+  norns:
+    after: [nanomsg, libmonome, jack2, supercollider]
+    source: git@github.com:catfact/norns.git
+    source-depth: 1
+    plugin: waf
+    configflags:
+      - --prefix=/usr
+    build-packages:
+      - libasound2-dev
+      - liblo-dev
+      - libudev-dev
+      - libevdev-dev
+      - libcairo2-dev
+      - liblua5.3-dev
+      - libavahi-compat-libdnssd-dev
+
+apps:
+  norns:
+    command: usr/bin/matron
+    plugs:
+      - alsa
+      - avahi-control
+      - avahi-observe
+      - framebuffer
+      - gpio
+      #- gpio-memory-control
+      - hardware-observe
+      - hidraw
+      - home
+      - i2c
+      - mount-observe
+      - network
+      - network-bind
+      #- network-control
+      - network-manager
+      - network-observe
+      # might need this for jackd
+      #- physical-memory-control
+      #- physical-memory-observe
+      - process-control
+      - raw-usb
+      - removable-media
+      - serial-port
+      - shutdown
+      # is this required?
+      - snapd-control
+      - spi
+      # is this required?
+      - system-observe
+      #- time-control
+      #- time-control
+      #- timezone-control
