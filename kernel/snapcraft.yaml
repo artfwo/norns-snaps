@@ -1,5 +1,5 @@
 name: norns-kernel-artfwo
-version: 4.9-1
+version: 4.9.59-rt52-1
 summary: norns kernel
 description: norns kernel description
 type: kernel
@@ -11,17 +11,26 @@ grade: devel
 parts:
     kernel:
         plugin: kernel
-        source: https://www.github.com/raspberrypi/linux.git
-        source-branch: "rpi-4.9.y"
+        source: https://github.com/simonvanderveldt/linux.git
         source-type: git
+        source-branch: norns-20171029-1
         source-depth: 1
 
-        kdefconfig: [bcm2709_defconfig]
+        kdefconfig: [norns_defconfig]
         kconfigs:
             - CONFIG_LOCALVERSION="-norns"
+            - CONFIG_SECURITY=y
+            - CONFIG_SECURITY_APPARMOR=y
+            - CONFIG_STRICT_DEVMEM=y
+            - CONFIG_DEFAULT_SECURITY_APPARMOR=y
+            - CONFIG_CC_STACKPROTECTOR=y
+            - CONFIG_CC_STACKPROTECTOR_STRONG=y
+            - CONFIG_DEBUG_SET_MODULE_RONX=y
+            - CONFIG_ENCRYPTED_KEYS=y
+            #- CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
         kernel-initrd-modules:
             - squashfs
         kernel-image-target: zImage
-        #kernel-device-trees:
-        #    - ...
+        kernel-device-trees:
+            - bcm2710-rpi-cm3
 build-packages: [bc, kmod, cpio]
