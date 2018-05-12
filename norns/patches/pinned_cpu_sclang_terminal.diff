@@ -1,0 +1,13 @@
+Index: supercollider/lang/LangSource/SC_TerminalClient.cpp
+===================================================================
+--- supercollider.orig/lang/LangSource/SC_TerminalClient.cpp
++++ supercollider/lang/LangSource/SC_TerminalClient.cpp
+@@ -403,7 +403,7 @@ extern void ElapsedTimeToChrono(double e
+ 
+ void SC_TerminalClient::tick( const boost::system::error_code& error )
+ {
+-	mTimer.cancel();
++	if (error==boost::system::errc::success) { mTimer.cancel(); } else { return; }
+ 
+ 	double secs;
+ 	lock();

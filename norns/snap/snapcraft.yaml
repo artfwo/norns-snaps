@@ -1,20 +1,79 @@
 name: norns-test-artfwo
 version: '0.1'
-summary: test snap
+summary: changes. travels. is open to possibilities.
 description: |
-  test description.
+  norns is many sound instruments. it connects to grids, MIDI and
+  other objects. norns lets you define its behavior with scripts and
+  DSP.
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+  past. present. future. norns is many tomorrows.
 
-architectures:
-  - armhf
-
-apps:
-  hello:
-    command: hello
+grade: devel
+confinement: devmode
 
 parts:
-  gnu-hello:
-    plugin: autotools
-    source: http://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz
+  nanomsg:
+    source: https://github.com/nanomsg/nanomsg.git
+    source-depth: 1
+    plugin: cmake
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+
+  libmonome:
+    source: https://github.com/monome/libmonome.git
+    source-depth: 1
+    plugin: waf
+    build-packages:
+      - libudev-dev
+      - liblo-dev
+    stage-packages:
+      - liblo7
+    configflags:
+      - --prefix=/usr
+
+  jack2:
+    source: https://github.com/jackaudio/jack2.git
+    source-depth: 1
+    plugin: waf
+    build-packages:
+      - libasound2-dev
+      - libsamplerate0-dev
+    stage-packages:
+      - libasound2
+      - libsamplerate0
+    configflags:
+      - --prefix=/usr
+
+  supercollider:
+    after: [jack2]
+    source: https://github.com/supercollider/supercollider.git
+    source-depth: 1
+    disable-parallel: true
+    prepare: |
+      git apply ../../../patches/pinned_cpu_sclang_terminal.diff
+    plugin: cmake
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DNATIVE=1
+      - -DSSE=0
+      - -DSSE2=0
+      - -DENABLE_TESTSUITE=0
+      - -DCMAKE_SKIP_RPATH=1
+      - -DLIBSCSYNTH=0
+      - -DSUPERNOVA=0
+      - -DSC_WII=0
+      - -DSC_IDE=0
+      - -DSC_QT=0
+      - -DSC_ED=0
+      - -DSC_EL=0
+      - -DSC_VIM=0
+    build-packages:
+      - libasound2-dev
+      - libavahi-client-dev
+      - libfftw3-dev
+      - libicu-dev
+      - libreadline-dev
+      - libsndfile1-dev
+      - libudev-dev
+      - libxt-dev
