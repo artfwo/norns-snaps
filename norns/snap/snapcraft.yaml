@@ -50,10 +50,10 @@ parts:
     source: https://github.com/supercollider/supercollider.git
     source-depth: 1
     disable-parallel: true
-    override-build: |
+    override-pull: |
+      snapcraftctl pull
       echo "applying pinned_cpu_sclang_terminal.diff..."
       git apply --verbose ../../../patches/pinned_cpu_sclang_terminal.diff
-      snapcraftctl build
     plugin: cmake
     configflags:
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -108,6 +108,8 @@ parts:
     plugin: waf
     configflags:
       - --prefix=/usr
+      - CXXFLAGS=-I$SNAPCRAFT_STAGE/usr/include/SuperCollider/plugin_interface
+      - CXXFLAGS=-I$SNAPCRAFT_STAGE/usr/include/SuperCollider/common
     build-packages:
       - libasound2-dev
       - liblo-dev
@@ -116,6 +118,17 @@ parts:
       - libcairo2-dev
       - liblua5.3-dev
       - libavahi-compat-libdnssd-dev
+    stage-packages:
+      - libxext6
+      - libxrender1
+      - libcairo2
+      - libavahi-compat-libdnssd1
+      - libevdev2
+      - libfontconfig1
+      - liblua5.3-0
+      - libpixman-1-0
+      - libxcb-render0
+      - libxcb-shm0
 
 apps:
   norns:
