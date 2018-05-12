@@ -6,6 +6,6 @@
   "model": "norns-artfwo",
   "architecture": "armhf",
   "gadget": "cm3-norns-artfwo",
-  "kernel": "norns-kernel-artfwo",
+  "kernel": "pi2-kernel",
   "timestamp": "2018-05-12T04:25:08+00:00"
 }

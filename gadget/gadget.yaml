@@ -1,4 +1,5 @@
 device-tree: bcm2710-rpi-cm3.dtb
+
 volumes:
   cm3:
     schema: mbr

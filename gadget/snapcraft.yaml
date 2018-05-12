@@ -6,13 +6,16 @@ description: |
 type: gadget
 architectures:
   - armhf
+
 confinement: strict
 grade: stable
+
 parts:
   uboot:
     plugin: nil
     source: git://git.denx.de/u-boot.git
     source-branch: v2017.05
+    source-depth: 1
     prepare: |
       git apply ../../../uboot.patch
       make rpi_3_32b_defconfig
