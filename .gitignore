@@ -14,3 +14,6 @@ norns/stage/
 norns/*.snap
 
 *.model
+seed.manifest
+snaps.manifest
+cm3.img
