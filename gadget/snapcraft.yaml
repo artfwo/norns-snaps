@@ -63,21 +63,9 @@ parts:
     source: .
     after:
       - configs
-    prepare: |
-      PACKAGES="http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/universe/binary-armhf/Packages.gz"
-      PKGPATH="$(wget -q -O- $PACKAGES|zcat|grep-dctrl linux-raspi2 |\
-        grep linux-image|grep Filename|tail -1| sed 's/^Filename: //')"
-      wget http://ports.ubuntu.com/ubuntu-ports/$PKGPATH
-      dpkg -x $(basename $PKGPATH) unpack/
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/boot-assets
-      cp -a unpack/lib/firmware/*/device-tree/* $SNAPCRAFT_PART_INSTALL/boot-assets
-      rm -rf unpack
-    build-packages:
-      - coreutils
-      - dctrl-tools
-      - sed
-      - wget
+      cp -a dts/* $SNAPCRAFT_PART_INSTALL/boot-assets
 
 slots:
   bcm-gpio-0:

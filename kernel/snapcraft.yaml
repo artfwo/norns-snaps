@@ -31,6 +31,5 @@ parts:
         kernel-initrd-modules:
             - squashfs
         kernel-image-target: zImage
-        kernel-device-trees:
-            - bcm2710-rpi-cm3
+
 build-packages: [bc, kmod, cpio]
