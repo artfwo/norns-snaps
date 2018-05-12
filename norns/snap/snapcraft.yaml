@@ -41,6 +41,7 @@ parts:
     stage-packages:
       - libasound2
       - libsamplerate0
+      - libsndfile1
     configflags:
       - --prefix=/usr
 
@@ -77,3 +78,10 @@ parts:
       - libsndfile1-dev
       - libudev-dev
       - libxt-dev
+    stage-packages:
+      - libx11-6
+      - libxau6
+      - libxdmcp6
+      - libavahi-client3
+      - libfftw3-single3
+      - libxcb1
