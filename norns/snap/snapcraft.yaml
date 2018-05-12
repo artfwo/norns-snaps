@@ -108,8 +108,7 @@ parts:
     plugin: waf
     configflags:
       - --prefix=/usr
-      - CXXFLAGS=-I$SNAPCRAFT_STAGE/usr/include/SuperCollider/plugin_interface
-      - CXXFLAGS=-I$SNAPCRAFT_STAGE/usr/include/SuperCollider/common
+      - CXXFLAGS=-I$SNAPCRAFT_STAGE/usr/include/SuperCollider/plugin_interface -I$SNAPCRAFT_STAGE/usr/include/SuperCollider/common
     build-packages:
       - libasound2-dev
       - liblo-dev
