@@ -1,0 +1,27 @@
+name: norns-kernel-artfwo
+version: 4.9-1
+summary: norns kernel
+description: norns kernel description
+type: kernel
+architectures: [ armhf ]
+
+confinement: devmode
+grade: devel
+
+parts:
+    kernel:
+        plugin: kernel
+        source: https://www.github.com/raspberrypi/linux.git
+        source-branch: "rpi-4.9.y"
+        source-type: git
+        source-depth: 1
+
+        kdefconfig: [bcm2709_defconfig]
+        kconfigs:
+            - CONFIG_LOCALVERSION="-snappy"
+        kernel-initrd-modules:
+            - squashfs
+        kernel-image-target: zImage
+        #kernel-device-trees:
+        #    - ...
+build-packages: [bc, kmod, cpio]

@@ -1,0 +1,14 @@
+gadget/parts/
+gadget/prime/
+gadget/stage/
+gadget/cm3_*.snap
+
+kernel/parts/
+kernel/prime/
+kernel/stage/
+kernel/*.snap
+
+norns/parts/
+norns/prime/
+norns/stage/
+norns/*.snap
